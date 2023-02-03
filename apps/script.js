@@ -1,5 +1,6 @@
-import ehUmCPF from "./valida-cpf.js"
-import ehMaiorDeIdade from "./valida-idade.js"
+
+
+
 const camposDoFormulario = document.querySelectorAll('[required]')
 const formulario = document.querySelector('[data-formulario]')
 
@@ -89,4 +90,94 @@ function verificaCampo(campo) {
     } else {
         mensagemErro.textContent = ""
     }
+}
+
+
+/* imports and exports */
+
+
+function ehMaiorDeIdade(campo) {
+    const dataNascimento = new Date(campo.value)
+    /* se a função for falsa avisa o erro customValidity */
+    if (!validaIdade(dataNascimento)) {
+        campo.setCustomValidity('O usuário não é maior de idade');
+    }
+}
+
+function validaIdade(data) {
+    /* new date pega a data atual */
+    const dataAtual = new Date()
+    /* data recebida MAIS 18 anos */
+    const dataMais18 = new Date(data.getUTCFullYear() + 18, data.getUTCMonth(), data.getUTCDate());
+
+    /* retora boolean/se a data atual é maior ou não que a mais18 */
+    return dataAtual >= dataMais18
+}
+
+
+
+
+
+function ehUmCPF(campo) {
+    const cpf = campo.value.replace(/\.|-/g, "")
+    /* se alguma das validações for verdadeira(erro no cpf) avisa o erro customValidity */
+    if (validaNumerosRepetidos(cpf) || validaPrimeiroDigito(cpf) || validaSegundoDigito(cpf)) {
+        campo.setCustomValidity('Esse cpf não é válido')
+    }
+}
+
+/* lógica para verificar repetidos */
+function validaNumerosRepetidos(cpf) {
+    const numerosRepetidos = [
+        '00000000000',
+        '11111111111',
+        '22222222222',
+        '33333333333',
+        '44444444444',
+        '55555555555',
+        '66666666666',
+        '77777777777',
+        '88888888888',
+        '99999999999'
+    ]
+
+    return numerosRepetidos.includes(cpf)
+}
+
+/* lógica para verificar primeiro numero */
+function validaPrimeiroDigito(cpf) {
+    let soma = 0;
+    let multiplicador = 10;
+
+    for (let tamanho = 0; tamanho < 9; tamanho++) {
+        soma += cpf[tamanho] * multiplicador;
+        multiplicador--
+    }
+
+    soma = (soma * 10) % 11;
+
+    if (soma == 10 || soma == 11) {
+        soma = 0;
+    }
+
+    return soma != cpf[9];
+}
+
+/* lógica para verificar segundo numero */
+function validaSegundoDigito(cpf) {
+    let soma = 0;
+    let multiplicador = 11;
+
+    for (let tamanho = 0; tamanho < 10; tamanho++) {
+        soma += cpf[tamanho] * multiplicador;
+        multiplicador--
+    }
+
+    soma = (soma * 10) % 11;
+
+    if (soma == 10 || soma == 11) {
+        soma = 0;
+    }
+
+    return soma != cpf[10];
 }
