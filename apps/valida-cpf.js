@@ -1,10 +1,12 @@
 export default function ehUmCPF(campo) {
-    const cpf = campo.value.replace(/\.|-/g, "");
+    const cpf = campo.value.replace(/\.|-/g, "")
+    /* se alguma das validações for verdadeira(erro no cpf) avisa o erro customValidity */
     if (validaNumerosRepetidos(cpf) || validaPrimeiroDigito(cpf) || validaSegundoDigito(cpf)) {
         campo.setCustomValidity('Esse cpf não é válido')
     }
 }
 
+/* lógica para verificar repetidos */
 function validaNumerosRepetidos(cpf) {
     const numerosRepetidos = [
         '00000000000',
@@ -22,6 +24,7 @@ function validaNumerosRepetidos(cpf) {
     return numerosRepetidos.includes(cpf)
 }
 
+/* lógica para verificar primeiro numero */
 function validaPrimeiroDigito(cpf) {
     let soma = 0;
     let multiplicador = 10;
@@ -40,6 +43,7 @@ function validaPrimeiroDigito(cpf) {
     return soma != cpf[9];
 }
 
+/* lógica para verificar segundo numero */
 function validaSegundoDigito(cpf) {
     let soma = 0;
     let multiplicador = 11;

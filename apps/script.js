@@ -1,7 +1,7 @@
-import ehUmCPF from "./valida-cpf.js";
-import ehMaiorDeIdade from "./valida-idade.js";
+import ehUmCPF from "./valida-cpf.js"
+import ehMaiorDeIdade from "./valida-idade.js"
 const camposDoFormulario = document.querySelectorAll('[required]')
-const formulario = document.querySelector('[data-formulario]');
+const formulario = document.querySelector('[data-formulario]')
 
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -16,7 +16,7 @@ formulario.addEventListener("submit", (e) => {
 
     localStorage.setItem("cadastro", JSON.stringify(listaRespostas));
 
-    window.location.href = "./abrir-conta-form-2.html";
+    window.location.href = "./abrir-conta-form-2.html"
 })
 
 camposDoFormulario.forEach((campo) => {
@@ -24,6 +24,8 @@ camposDoFormulario.forEach((campo) => {
     campo.addEventListener("invalid", evento => evento.preventDefault())
 })
 
+
+/* array com erros para modificar mensagem */
 const tiposDeErro = [
     'valueMissing',
     'typeMismatch',
@@ -31,7 +33,8 @@ const tiposDeErro = [
     'tooShort',
     'customError'
 ]
-
+/* mensagens recebe objetos que recebem objetos
+com seus respectivcos erros e mensagens */
 const mensagens = {
     nome: {
         valueMissing: "O campo de nome não pode estar vazio.",
@@ -64,26 +67,26 @@ const mensagens = {
 }
 
 function verificaCampo(campo) {
-    let mensagem = "";
-    campo.setCustomValidity('');
+    let mensagem = ""
+    campo.setCustomValidity('')
     if (campo.name == "cpf" && campo.value.length >= 11) {
         ehUmCPF(campo);
     }
     if (campo.name == "aniversario" && campo.value != "") {
-        ehMaiorDeIdade(campo);
+        ehMaiorDeIdade(campo)
     }
     tiposDeErro.forEach(erro => {
         if (campo.validity[erro]) {
             mensagem = mensagens[campo.name][erro];
-            console.log(mensagem);
+            console.log(mensagem)
         }
     })
-    const mensagemErro = campo.parentNode.querySelector('.mensagem-erro');
-    const validadorDeInput = campo.checkValidity();
+    const mensagemErro = campo.parentNode.querySelector('.mensagem-erro')
+    const validadorDeInput = campo.checkValidity()
 
     if (!validadorDeInput) {
-        mensagemErro.textContent = mensagem;
+        mensagemErro.textContent = mensagem
     } else {
-        mensagemErro.textContent = "";
+        mensagemErro.textContent = ""
     }
 }
