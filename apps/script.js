@@ -4,6 +4,7 @@
 const camposDoFormulario = document.querySelectorAll('[required]')
 const formulario = document.querySelector('[data-formulario]')
 
+/* evento no submit com preventDefault para não fazer reload (???) */
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -17,9 +18,10 @@ formulario.addEventListener("submit", (e) => {
 
     localStorage.setItem("cadastro", JSON.stringify(listaRespostas));
 
-    window.location.href = "./abrir-conta-form-2.html"
+    window.location.href = ""
 })
 
+/* para cada campo do form ativar a função verificaCampo com o blur */
 camposDoFormulario.forEach((campo) => {
     campo.addEventListener("blur", () => verificaCampo(campo));
     campo.addEventListener("invalid", evento => evento.preventDefault())
@@ -70,12 +72,13 @@ const mensagens = {
 function verificaCampo(campo) {
     let mensagem = ""
     campo.setCustomValidity('')
+    /* se o campo for de cpf chamar a função ehUmCpf */
     if (campo.name == "cpf" && campo.value.length >= 11) {
         ehUmCPF(campo);
-    }
+    }/* se o campo for da data de nascimento chamar a função ehMaiorDeIdade */
     if (campo.name == "aniversario" && campo.value != "") {
         ehMaiorDeIdade(campo)
-    }
+    }/* para cada erro dos tipos de erro colocar a respectiva mensagem caso validity der erro */
     tiposDeErro.forEach(erro => {
         if (campo.validity[erro]) {
             mensagem = mensagens[campo.name][erro];
@@ -84,7 +87,7 @@ function verificaCampo(campo) {
     })
     const mensagemErro = campo.parentNode.querySelector('.mensagem-erro')
     const validadorDeInput = campo.checkValidity()
-
+    /* adicionando a mensagem como mensagem de erro */
     if (!validadorDeInput) {
         mensagemErro.textContent = mensagem
     } else {
