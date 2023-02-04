@@ -1,5 +1,5 @@
-
-
+/* import ehUmCPF from "./valida-cpf.js" */
+/* import ehMaiorDeIdade from "./valida-idade.js" */
 
 const camposDoFormulario = document.querySelectorAll('[required]')
 const formulario = document.querySelector('[data-formulario]')
@@ -92,11 +92,11 @@ function verificaCampo(campo) {
     }
 }
 
-
+///
 /* imports and exports */
+///
 
-
-function ehMaiorDeIdade(campo) {
+/* export default */ function ehMaiorDeIdade(campo) {
     const dataNascimento = new Date(campo.value)
     /* se a função for falsa avisa o erro customValidity */
     if (!validaIdade(dataNascimento)) {
@@ -118,7 +118,7 @@ function validaIdade(data) {
 
 
 
-function ehUmCPF(campo) {
+/* export default */ function ehUmCPF(campo) {
     const cpf = campo.value.replace(/\.|-/g, "")
     /* se alguma das validações for verdadeira(erro no cpf) avisa o erro customValidity */
     if (validaNumerosRepetidos(cpf) || validaPrimeiroDigito(cpf) || validaSegundoDigito(cpf)) {
